@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { take, switchMap, tap, map } from 'rxjs/operators';
+import { environment } from "src/environments/environment";
 import { Product } from "../models/product.model";
 
 @Injectable({
@@ -17,7 +18,7 @@ export class ProductService{
   }
 
   fetchAll() {
-    return this.http.get<Product[]>(`http://localhost:8000/product/`).pipe(
+    return this.http.get<Product[]>(environment.apiLinks.products).pipe(
       map(res => {
         this._products.next(res);
         return res;
@@ -26,7 +27,7 @@ export class ProductService{
   }
 
   addProduct(product: Product) {
-    return this.http.post<Product>('http://localhost:8000/product/', {...product}).pipe(
+    return this.http.post<Product>(environment.apiLinks.products, {...product}).pipe(
       take(1),
       map(res => {
         let allProducts:Product[] = [];

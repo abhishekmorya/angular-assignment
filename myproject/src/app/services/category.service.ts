@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { environment } from "src/environments/environment";
 import { Category } from "../models/category.model";
 
 @Injectable({
@@ -16,6 +17,7 @@ export class CategoryService{
   }
 
   fetchAll() {
-    return this.http.get<Category[]>('http://127.0.0.1:8000/category/').toPromise();
+    // return this.http.get<Category[]>('http://127.0.0.1:8000/category/').toPromise();
+    return this.http.get<Category[]>(environment.apiLinks.category).toPromise();
   }
 }

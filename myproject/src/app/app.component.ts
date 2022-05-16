@@ -43,6 +43,9 @@ export class AppComponent implements OnInit {
     this.fetchAllData();
   }
 
+  ngOnInit() {
+    this.updateDataSource();
+  }
   async fetchAllData() {
     this.products = await this.productService.fetchAll();
     this.categories = await this.categoryService.fetchAll();
@@ -57,29 +60,28 @@ export class AppComponent implements OnInit {
         category: this.categories.filter((c) => c.id === x.category)[0].name,
         subCategory: this.subCategories.filter(
           (c) => c.id === x.sub_category
-        )[0].name,
-        product: x.name,
+          )[0].name,
+          product: x.name,
+        });
       });
-    });
-    this.dataSource.data = this.data;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+      this.dataSource.data = this.data;
+      console.log(this.paginator);
+      this.dataSource.paginator = this.paginator;
+      console.log(this.paginator);
+      this.dataSource.sort = this.sort;
+    }
 
-  async updateDataSource() {
-    this.productService.products.subscribe((res) => {
-      this.products = res;
-      if (
-        this.products.length > 0 &&
-        this.categories.length > 0 &&
-        this.subCategories.length > 0
-      ) {
-        this.fillDataSource();
+    async updateDataSource() {
+      this.productService.products.subscribe((res) => {
+        console.log(this.paginator);
+        this.products = res;
+        if (
+          this.products.length > 0 &&
+          this.categories.length > 0 &&
+          this.subCategories.length > 0
+          ) {
+            this.fillDataSource();
+          }
+        });
       }
-    });
-  }
-
-  ngOnInit() {
-    this.updateDataSource();
-  }
-}
+    }
